@@ -17,7 +17,7 @@
 		<script type="text/javascript">
 			$(document).ready(function () {
 				ymaps.ready(init);
-				
+				$("#price span").text(rate.fixedPrice);
 				$("#adress_form").submit(function () {
 					var fdata = $(this).serializeArray();
 					geocode(fdata[0].value);

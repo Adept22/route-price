@@ -553,14 +553,14 @@ function searchInPoly(obj) {
 }
 
 function calculate(distance = 0) {
-	var fromA107Price = parseInt((2 * (rate().kmPrice * distance)));
+	var fromA107Price = parseInt((2 * (rate.kmPrice * distance)));
 	
 	if(distance > 0) {
 		$("#distance span").text(distance);
 		$("#priceFromA107 span").text(fromA107Price);
 	}
 	
-	$("#inEnd span").text(rate().fixedPrice + fromA107Price);
+	$("#inEnd span").text(rate.fixedPrice + fromA107Price);
 }
 
 function getDistance(route) {

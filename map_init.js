@@ -425,7 +425,6 @@ var myMap,
 			nowRate = (today >= summerStart && today <= summerEnd), // Летний - true, зимний - false
 			fixedPrice = (nowRate ? 2000 : 2600),
 			kmPrice = (nowRate ? 22 : 30);
-		console.log(nowRate);
 		return {
 			rate: nowRate,
 			fixedPrice: fixedPrice,

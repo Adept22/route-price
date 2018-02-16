@@ -422,9 +422,10 @@ var myMap,
 			today = new Date(nowYear, now.getMonth(), now.getDate()).valueOf(),
 			summerStart = new Date(nowYear, 3, 1).valueOf(),
 			summerEnd = new Date(nowYear, 10, 0).valueOf(), // Последний день сентября
-			nowRate = (summerStart >= today && today <= summerEnd), // Летний - true, зимний - false
+			nowRate = (today >= summerStart && today <= summerEnd), // Летний - true, зимний - false
 			fixedPrice = (nowRate ? 2000 : 2600),
 			kmPrice = (nowRate ? 22 : 30);
+		console.log(nowRate);
 		return {
 			fixedPrice: fixedPrice,
 			kmPrice: kmPrice

@@ -18,6 +18,7 @@
 			$(document).ready(function () {
 				ymaps.ready(init);
 				$("#price span").text(rate.fixedPrice);
+				$("#priceFromA107 span:first-child").text(rate.kmPrice);
 				$("#adress_form").submit(function () {
 					var fdata = $(this).serializeArray();
 					geocode(fdata[0].value);
@@ -26,9 +27,9 @@
 			});
 		</script>
 		
-		<p id="price">Фиксированный тариф (в пределах МБК (А107)): <span>500</span> руб.</p>
+		<p id="price">Фиксированный тариф (в пределах МБК (А107)): <span></span> руб.</p>
 		<p id="distance">Дополнительное расстояние от МБК (А107): <span></span> км</p>
-		<p id="priceFromA107">Стоимость выезда за пределы МБК (А107) (20 руб./км) <span></span> руб.</p>
+		<p id="priceFromA107">Стоимость выезда за пределы МБК (А107) (<span></span> руб./км) <span></span> руб.</p>
 		<p id="inEnd">Итого: <b><span></span> руб.</b></p>
 	</body>
 </html>

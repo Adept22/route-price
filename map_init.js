@@ -557,7 +557,7 @@ function calculate(distance = 0) {
 	
 	if(distance > 0) {
 		$("#distance span").text(distance);
-		$("#priceFromA107 span").text(fromA107Price);
+		$("#priceFromA107 span:last-child").text(fromA107Price);
 	}
 	
 	$("#inEnd span").text(rate.fixedPrice + fromA107Price);

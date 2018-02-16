@@ -451,8 +451,13 @@ function init() {
 	});
 }
 
-function reload(uMap) {
+function clean() {
+	$("#adress_form [type='submit']").removeAttr("disabled");
+	$("#loading, #overlay").css("display", "none");
 	$("#priceFromA107 span, #distance span, #inEnd span, #notice").text("");
+}
+
+function reload(uMap) {
 	ymaps.geoQuery(myMap.geoObjects).search('geometry.type = "LineString"').removeFrom(myMap.geoObjects);
 }
 
@@ -524,30 +529,35 @@ function createPoint(coords, props) {
 }
 
 function geocode(request) {
-	ymaps.geocode(request).then(function (res) {
-        var obj = res.geoObjects.get(0),
-			mapContainer = $('#map'),
-    	    bounds = obj.properties.get('boundedBy'),
-    	    mapState = ymaps.util.bounds.getCenterAndZoom(
-				bounds,
-				[mapContainer.width(), mapContainer.height()]
-    	    ),
-			searchResult = {
-				pointCoords: (Array.isArray(request) ? request : mapState.center),
-				fullAddress: [obj.getCountry(), obj.getAddressLine()].join(', '),
-				shortAddress: [obj.getThoroughfare(), obj.getPremiseNumber(), obj.getPremise()].join(' '),
-				inPoly: searchInPoly(obj)
-			};
-		
-		createPoint(searchResult.pointCoords, {iconCaption: searchResult.shortAddress, balloonContent: searchResult.fullAddress});
-		//myMap.setCenter(mapState.center, mapState.zoom);
-		reload(myMap);
-		
-		searchResult.inPoly ? calculate() : myRoute(searchResult.pointCoords);
-	}, function (e) {
-		$('#notice').text("Не удалось найти объект.");
-		console.log(e);
-	});
+	clean();
+	$("#adress_form [type='submit']").attr("disabled", "");
+	$("#loading, #overlay").css("display", "inline-block");
+	setTimeout(function () {
+		ymaps.geocode(request).then(function (res) {
+    	    var obj = res.geoObjects.get(0),
+				mapContainer = $('#map'),
+    		    bounds = obj.properties.get('boundedBy'),
+    		    mapState = ymaps.util.bounds.getCenterAndZoom(
+					bounds,
+					[mapContainer.width(), mapContainer.height()]
+    		    ),
+				searchResult = {
+					pointCoords: (Array.isArray(request) ? request : mapState.center),
+					fullAddress: [obj.getCountry(), obj.getAddressLine()].join(', '),
+					shortAddress: [obj.getThoroughfare(), obj.getPremiseNumber(), obj.getPremise()].join(' '),
+					inPoly: searchInPoly(obj)
+				};
+			
+			createPoint(searchResult.pointCoords, {iconCaption: searchResult.shortAddress, balloonContent: searchResult.fullAddress});
+			myMap.setCenter(mapState.center, mapState.zoom);
+			reload(myMap);
+			
+			searchResult.inPoly ? calculate() : myRoute(searchResult.pointCoords);
+		}, function (e) {
+			$('#notice').text("Не удалось найти объект.");
+			console.log(e);
+		});
+	}, 500);
 }
 
 function searchInPoly(obj) {
@@ -555,8 +565,10 @@ function searchInPoly(obj) {
 }
 
 function calculate(distance = 0) {
-	var fromA107Price = parseInt((2 * (rate.kmPrice * distance)));
 	
+	var fromA107Price = parseInt((2 * (rate.kmPrice * distance)));
+	clean();
+	$("#notice").css("color", "green").text("Расчет стоимости произведен.");
 	if(distance > 0) {
 		$("#distance span").text(distance);
 		$("#priceFromA107 span:last-child").text(fromA107Price);

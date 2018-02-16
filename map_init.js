@@ -427,6 +427,7 @@ var myMap,
 			kmPrice = (nowRate ? 22 : 30);
 		console.log(nowRate);
 		return {
+			rate: nowRate,
 			fixedPrice: fixedPrice,
 			kmPrice: kmPrice
 		};

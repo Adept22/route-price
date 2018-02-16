@@ -17,6 +17,7 @@
 		<script type="text/javascript">
 			$(document).ready(function () {
 				ymaps.ready(init);
+				$("#rate span").text(rate.rate ? "летний" : "зимний");
 				$("#price span").text(rate.fixedPrice);
 				$("#priceFromA107 span:first-child").text(rate.kmPrice);
 				$("#adress_form").submit(function () {
@@ -26,7 +27,7 @@
 				});
 			});
 		</script>
-		
+		<p id="rate">Сейчас действует <span></span> тариф.</p>
 		<p id="price">Фиксированный тариф (в пределах МБК (А107)): <span></span> руб.</p>
 		<p id="distance">Дополнительное расстояние от МБК (А107): <span></span> км</p>
 		<p id="priceFromA107">Стоимость выезда за пределы МБК (А107) (<span></span> руб./км) <span></span> руб.</p>

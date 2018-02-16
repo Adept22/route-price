@@ -414,7 +414,9 @@ var myMap,
 	routeObjects,
 	moscowPolygon,
 	wayPoint,
-	rate = function () {
+	rate = getRate();
+
+	function getRate() {
 		var now = new Date(),
 			nowYear = now.getFullYear(),
 			today = new Date(nowYear, now.getMonth(), now.getDate()).valueOf(),

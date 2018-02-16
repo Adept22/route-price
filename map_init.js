@@ -420,9 +420,9 @@ var myMap,
 			today = new Date(nowYear, now.getMonth(), now.getDate()).valueOf(),
 			summerStart = new Date(nowYear, 3, 1).valueOf(),
 			summerEnd = new Date(nowYear, 10, 0).valueOf(), // Последний день сентября
-			rate = (summerStart >= today && today <= summerEnd), // Летний - true, зимний - false
-			fixedPrice = (rate ? 2000 : 2600),
-			kmPrice = (rate ? 22 : 30);
+			nowRate = (summerStart >= today && today <= summerEnd), // Летний - true, зимний - false
+			fixedPrice = (nowRate ? 2000 : 2600),
+			kmPrice = (nowRate ? 22 : 30);
 		return {
 			fixedPrice: fixedPrice,
 			kmPrice: kmPrice
@@ -551,14 +551,14 @@ function searchInPoly(obj) {
 }
 
 function calculate(distance = 0) {
-	var fromA107Price = parseInt((2 * (rate.kmPrice * distance)));
+	var fromA107Price = parseInt((2 * (rate().kmPrice * distance)));
 	
 	if(distance > 0) {
 		$("#distance span").text(distance);
 		$("#priceFromA107 span").text(fromA107Price);
 	}
 	
-	$("#inEnd span").text(rate.fixedPrice + fromA107Price);
+	$("#inEnd span").text(rate().fixedPrice + fromA107Price);
 }
 
 function getDistance(route) {

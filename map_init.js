@@ -532,6 +532,7 @@ function geocode(request) {
 	clean();
 	$("#adress_form [type='submit']").attr("disabled", "");
 	$("#loading, #overlay").css("display", "inline-block");
+	$("#warning").text("");
 	setTimeout(function () {
 		ymaps.geocode(request).then(function (res) {
     	    var obj = res.geoObjects.get(0),
@@ -546,8 +547,22 @@ function geocode(request) {
 					fullAddress: [obj.getCountry(), obj.getAddressLine()].join(', '),
 					shortAddress: [obj.getThoroughfare(), obj.getPremiseNumber(), obj.getPremise()].join(' '),
 					inPoly: searchInPoly(obj)
-				};
-			
+				},
+				warning;
+			switch (obj.properties.get('metaDataProperty.GeocoderMetaData.precision')) {
+			    case 'exact':
+			    case 'number':
+			    case 'near':
+			    case 'range':
+			        break;
+			    case 'street':
+			    case 'other':
+			    default:
+			        warning = 'Неточный адрес. Вы уверены?';
+			}
+			if(warning) {
+				$("#warning").text(warning);
+			}
 			createPoint(searchResult.pointCoords, {iconCaption: searchResult.shortAddress, balloonContent: searchResult.fullAddress});
 			myMap.setCenter(mapState.center, mapState.zoom);
 			reload(myMap);

@@ -536,9 +536,20 @@ function searchInPoly(obj) {
 	return (ymaps.geoQuery(obj).searchInside(moscowPolygon).getLength() == 0 ? false : true);
 }
 
+function getLastDayOfMonth(year, month) {
+	var date = new Date(year, month + 1, 0);
+	return date.getDate();
+}
+
 function calculate(distance = 0) {
-	var kmPrice = 20,
-		fixedPrice = 500,
+	var now = new Date(),
+		nowYear = now.getFullYear(),
+		today = new Date(nowYear, now.getMonth(), now.getDate()).valueOf(),
+		summerStart = new Date(nowYear, 3, 1).valueOf(),
+		summerEnd = new Date(nowYear, 10, 0).valueOf(), // Последний день сентября
+		rate = (summerStart >= today && today <= summerEnd), // Летний - true, зимний - false
+		fixedPrice = (rate ? 2000 : 2600),
+		kmPrice = (rate ? 22 : 30),
 		fromA107Price = parseInt((2 * (kmPrice * distance)));
 	
 	if(distance > 0) {
